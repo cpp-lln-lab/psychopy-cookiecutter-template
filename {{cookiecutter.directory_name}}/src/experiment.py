@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-'''experiment.py
+"""experiment.py
 experiemnt stimulus here
-'''
+"""
 from psychopy import core, data, gui, visual, event, logging
 from pyglet.window import key
 
@@ -14,31 +14,44 @@ import numpy as np
 
 # use the first font found on this list
 
-sans = ['Arial', 'Gill Sans MT', 'Helvetica', 'Verdana']
+sans = ["Arial", "Gill Sans MT", "Helvetica", "Verdana"]
 
 
 class Paradigm(object):
-    '''
+    """
     Study paradigm
-    '''
-    def __init__(self, escape_key='esc', window_size=(1280, 720), color=0, *args, **kwargs):
+    """
+
+    def __init__(
+        self, escape_key="esc", window_size=(1280, 720), color=0, *args, **kwargs
+    ):
         self.escape_key = escape_key
         self.trials = []
         self.stims = {}
 
-        if window_size =='full_screen':
-            self.window = visual.Window(fullscr=True, color=color, units='pix', *args, **kwargs)
+        if window_size == "full_screen":
+            self.window = visual.Window(
+                fullscr=True, color=color, units="pix", *args, **kwargs
+            )
         else:
-            self.window = visual.Window(size=window_size, color=color, allowGUI=True, units='pix', *args, **kwargs)
+            self.window = visual.Window(
+                size=window_size,
+                color=color,
+                allowGUI=True,
+                units="pix",
+                *args,
+                **kwargs,
+            )
 
 
 class Text(object):
-    '''
+    """
     show text in the middle of the screen
     such as 'switch'
-    '''
+    """
+
     def __init__(self, window, text, color, height=34):
-        '''Initialize a text stimulus.
+        """Initialize a text stimulus.
         Args:
         window - The window object
         text - text to display
@@ -47,28 +60,36 @@ class Text(object):
                 will automatically go to the next stimulus.
         Additional args and kwargs are passed to the visual.TextStim
         constructor.
-        '''
+        """
         self.window = window
-        self.text = visual.TextStim(self.window, text=text, height=height, wrapWidth=1100, color=color, font=sans)
+        self.text = visual.TextStim(
+            self.window,
+            text=text,
+            height=height,
+            wrapWidth=1100,
+            color=color,
+            font=sans,
+        )
 
     def show(self, clock, duration):
         self.text.draw()
         self.window.flip()
         start_trial = clock.getTime()
         core.wait(duration)
-        if event.getKeys(keyList=['escape']):
-            print('user quit')
+        if event.getKeys(keyList=["escape"]):
+            print("user quit")
             core.quit()
         return start_trial
 
 
 class Text_trial(object):
-    '''
+    """
     show text-based trials in the middle of the screen
     receive responses
-    '''
+    """
+
     def __init__(self, window, color, respkeylist, keyans=None, height=34):
-        '''Initialize a text stimulus.
+        """Initialize a text stimulus.
         Args:
         window - The window object
         text - text to display
@@ -79,10 +100,16 @@ class Text_trial(object):
                 If None, copy respkeylist
         Additional args and kwargs are passed to the visual.TextStim
         constructor.
-        '''
+        """
         self.window = window
-        self.text = visual.TextStim(self.window, text=None, height=height,
-                                    wrapWidth=1100, color=color, font=sans)
+        self.text = visual.TextStim(
+            self.window,
+            text=None,
+            height=height,
+            wrapWidth=1100,
+            color=color,
+            font=sans,
+        )
 
         if keyans is None:
             self.respkeylist, self.keyans = respkeylist, respkeylist
@@ -90,10 +117,10 @@ class Text_trial(object):
             self.respkeylist, self.keyans = respkeylist, keyans
 
     def set_trial(self, trial):
-        self.duration = trial['StimDuration']
-        self.ans = trial['Ans']
-        self.text.setText(trial['Item'])
-        self.item = [trial['Item']]
+        self.duration = trial["StimDuration"]
+        self.ans = trial["Ans"]
+        self.text.setText(trial["Item"])
+        self.item = [trial["Item"]]
 
     def show(self, clock):
         event.clearEvents()
@@ -118,15 +145,16 @@ class Text_trial(object):
                 self.text.draw()
                 self.window.flip()
                 KeyResp, Resp, KeyPressTime = get_keyboard(
-                    clock, self.respkeylist, self.keyans)
+                    clock, self.respkeylist, self.keyans
+                )
             # get reaction time and key press
             if not np.isnan(KeyPressTime):
                 rt = KeyPressTime - start_trial
             else:
-                KeyResp, Resp = 'None', 'None'
+                KeyResp, Resp = "None", "None"
 
             # get correct trials
-            if self.ans == 'NA':
+            if self.ans == "NA":
                 correct = None
             elif self.ans == Resp:
                 correct = 1
@@ -137,12 +165,13 @@ class Text_trial(object):
 
 
 class Img_trial(object):
-    '''
+    """
     show image-based trials in the middle of the screen
     receive responses
-    '''
+    """
+
     def __init__(self, window, respkeylist, keyans=None):
-        '''Initialize a text stimulus.
+        """Initialize a text stimulus.
         Args:
         window - The window object        duration - the duration the text will appear
         respkeylist - list of keys to press to continue to next stimulus.
@@ -151,7 +180,7 @@ class Img_trial(object):
                 If None, copy respkeylist
         Additional args and kwargs are passed to the visual.TextStim
         constructor.
-        '''
+        """
         self.window = window
         self.img = visual.ImageStim(self.window, image=None)
 
@@ -161,10 +190,10 @@ class Img_trial(object):
             self.respkeylist, self.keyans = respkeylist, keyans
 
     def set_trial(self, trial):
-        self.duration = trial['StimDuration']
-        self.ans = trial['Ans']
-        self.img.setImage(trial['Item'])
-        self.item = [trial['Item']]
+        self.duration = trial["StimDuration"]
+        self.ans = trial["Ans"]
+        self.img.setImage(trial["Item"])
+        self.item = [trial["Item"]]
 
     def show(self, clock):
         event.clearEvents()
@@ -189,15 +218,16 @@ class Img_trial(object):
                 self.img.draw()
                 self.window.flip()
                 KeyResp, Resp, KeyPressTime = get_keyboard(
-                    clock, self.respkeylist, self.keyans)
+                    clock, self.respkeylist, self.keyans
+                )
             # get reaction time and key press
             if not np.isnan(KeyPressTime):
                 rt = KeyPressTime - start_trial
             else:
-                KeyResp, Resp = 'None', 'None'
+                KeyResp, Resp = "None", "None"
 
             # get correct trials
-            if self.ans == 'NA':
+            if self.ans == "NA":
                 correct = None
             elif self.ans == Resp:
                 correct = 1
@@ -208,11 +238,12 @@ class Img_trial(object):
 
 
 class Question(object):
-    '''
+    """
     collect mind wandering report
-    '''
+    """
+
     def __init__(self, window, questions, color):
-        '''Initialize a question stimulus.
+        """Initialize a question stimulus.
         Args:
         window - The window object
         questions - a list of dictionaries
@@ -220,31 +251,43 @@ class Question(object):
                 will automatically go to the next stimulus.
         Additional args and kwargs are passed to the visual.TextStim
         constructor.
-        '''
+        """
         self.window = window
         self.description = visual.TextStim(
-                self.window, text=None, height=34,
-                wrapWidth=1100, color=color, font=sans)
+            self.window, text=None, height=34, wrapWidth=1100, color=color, font=sans
+        )
         self.scale_lh = visual.TextStim(
-                self.window, text=None, height=34, wrapWidth=1100,
-                pos=[0, -150],
-                color=color, font=sans)
+            self.window,
+            text=None,
+            height=34,
+            wrapWidth=1100,
+            pos=[0, -150],
+            color=color,
+            font=sans,
+        )
         self.questions = questions
-        self.rating = visual.RatingScale(self.window, low=1, high=10, markerStart=4.5,
-                precision=10, tickMarks=[1, 10],
-                leftKeys='1', rightKeys='2', acceptKeys='4')
+        self.rating = visual.RatingScale(
+            self.window,
+            low=1,
+            high=10,
+            markerStart=4.5,
+            precision=10,
+            tickMarks=[1, 10],
+            leftKeys="1",
+            rightKeys="2",
+            acceptKeys="4",
+        )
 
     def set(self, trial):
-        self.description.setText(trial['Item'])
-        self.scale_lh.setText(trial['Scale_low'] + ' ' * 40 + trial['Scale_high'])
-        if trial['StimDuration']:
-            self.scale_max_time = trial['StimDuration']
+        self.description.setText(trial["Item"])
+        self.scale_lh.setText(trial["Scale_low"] + " " * 40 + trial["Scale_high"])
+        if trial["StimDuration"]:
+            self.scale_max_time = trial["StimDuration"]
         else:
             self.scale_max_time = 90
 
-
     def show(self, clock):
-        keyState=key.KeyStateHandler()
+        keyState = key.KeyStateHandler()
         self.window.winHandle.push_handlers(keyState)
         self.description.draw()
         self.scale_lh.draw()
@@ -255,10 +298,12 @@ class Question(object):
         pos = self.rating.markerStart
         inc = 0.1
 
-        while (self.rating.noResponse
-               and clock.getTime() - start_trial < self.scale_max_time):
-            if event.getKeys(keyList=['escape']):
-                print('user quit')
+        while (
+            self.rating.noResponse
+            and clock.getTime() - start_trial < self.scale_max_time
+        ):
+            if event.getKeys(keyList=["escape"]):
+                print("user quit")
                 core.quit()
 
             if keyState[key._1] is True:
@@ -284,19 +329,24 @@ class Question(object):
 
 
 class instructions(object):
-    '''
+    """
     show instruction
-    '''
+    """
+
     def __init__(self, window, instruction_txt, color):
         self.window = window
         self.instruction_txt = load_instruction(instruction_txt)
 
         self.display = visual.TextStim(
-                window, text='default text', font=sans,
-                name='instruction',
-                pos=[-50,0], height=48, wrapWidth=1500,
-                color=color,
-                ) #object to display instructions
+            window,
+            text="default text",
+            font=sans,
+            name="instruction",
+            pos=[-50, 0],
+            height=48,
+            wrapWidth=1500,
+            color=color,
+        )  # object to display instructions
 
     def show(self, duration=None):
         # get instruction
@@ -307,11 +357,11 @@ class instructions(object):
             if duration:
                 core.wait(duration)
             else:
-                event.waitKeys(keyList=['1'])
+                event.waitKeys(keyList=["1"])
 
 
 def get_keyboard(timer, respkeylist, keyans):
-    '''
+    """
     Get key board response
     Args:
 
@@ -336,15 +386,15 @@ def get_keyboard(timer, respkeylist, keyans):
 
         KeyPressTime : float
             The clock time when the key press occurred
-    '''
+    """
 
     Resp = None
     KeyResp = None
     KeyPressTime = np.nan
-    keylist = ['escape'] + respkeylist
+    keylist = ["escape"] + respkeylist
 
     for key, time in event.getKeys(keyList=keylist, timeStamped=timer):
-        if key in ['escape']:
+        if key in ["escape"]:
             core.quit()
         else:
             KeyResp, KeyPressTime = key, time
@@ -355,34 +405,41 @@ def get_keyboard(timer, respkeylist, keyans):
 
 
 def subject_info(experiment_info):
-    '''
+    """
     get subject information
     return a dictionary
-    '''
-    dlg_title = '{} subject details:'.format(experiment_info['Experiment'])
+    """
+    dlg_title = f"{experiment_info['Experiment']} subject details:"
     infoDlg = gui.DlgFromDict(experiment_info, title=dlg_title)
 
-    experiment_info['Date'] = data.getDateStr()
+    experiment_info["Date"] = data.getDateStr()
 
-    file_root = ('_').join([experiment_info['Subject'],
-                            experiment_info['Experiment'],
-                            experiment_info['Session']
-                            ])
+    file_root = ("_").join(
+        [
+            experiment_info["Subject"],
+            experiment_info["Experiment"],
+            experiment_info["Session"],
+        ]
+    )
 
-    experiment_info['DataFile'] = 'data' + os.path.sep + file_root + '_data_'  + experiment_info['Date'] + '.csv'
-    experiment_info['LogFile'] = 'data' + os.path.sep + file_root + '_logs_'  + experiment_info['Date']+ '.log'
+    experiment_info["DataFile"] = (
+        "data" + os.path.sep + file_root + "_data_" + experiment_info["Date"] + ".csv"
+    )
+    experiment_info["LogFile"] = (
+        "data" + os.path.sep + file_root + "_logs_" + experiment_info["Date"] + ".log"
+    )
 
     if infoDlg.OK:
         return experiment_info
     else:
         core.quit()
-        print('User cancelled')
+        print("User cancelled")
 
 
 def event_logger(logging_level, LogFile):
-    '''
+    """
     log events
-    '''
+    """
     directory = os.path.dirname(LogFile)
     create_dir(directory)
 
