@@ -27,9 +27,7 @@ def parse_instructions(input_data):
     page break is #
     """
 
-    text = re.findall(r"([^#]+)", input_data)  # match any chars except for #
-
-    return text
+    return re.findall(r"([^#]+)", input_data)
 
 
 def load_instruction(PATH):
@@ -41,9 +39,7 @@ def load_instruction(PATH):
     with codecs.open(PATH, "r", encoding="utf8") as f:
         input_data = f.read()
 
-    text = parse_instructions(input_data)
-
-    return text
+    return parse_instructions(input_data)
 
 
 def load_conditions_dict(conditionfile):
@@ -54,10 +50,7 @@ def load_conditions_dict(conditionfile):
 
     with codecs.open(conditionfile, "r", encoding="utf8") as f:
         reader = csv.DictReader(f)
-        trials = []
-
-        for row in reader:
-            trials.append(row)
+        trials = [row for row in reader]
 
         # save field names as a list in order
         fieldnames = reader.fieldnames
@@ -70,10 +63,7 @@ def create_headers(list_headers):
     create ordered headers for the output data csv file
     """
 
-    headers = []
-
-    for header in list_headers:
-        headers.append((header, None))
+    headers = [(header, None) for header in list_headers]
 
     return OrderedDict(headers)
 

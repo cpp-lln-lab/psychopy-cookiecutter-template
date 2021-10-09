@@ -281,10 +281,7 @@ class Question(object):
     def set(self, trial):
         self.description.setText(trial["Item"])
         self.scale_lh.setText(trial["Scale_low"] + " " * 40 + trial["Scale_high"])
-        if trial["StimDuration"]:
-            self.scale_max_time = trial["StimDuration"]
-        else:
-            self.scale_max_time = 90
+        self.scale_max_time = trial["StimDuration"] or 90
 
     def show(self, clock):
         keyState = key.KeyStateHandler()
@@ -388,7 +385,6 @@ def get_keyboard(timer, respkeylist, keyans):
             The clock time when the key press occurred
     """
 
-    Resp = None
     KeyResp = None
     KeyPressTime = np.nan
     keylist = ["escape"] + respkeylist
@@ -399,8 +395,7 @@ def get_keyboard(timer, respkeylist, keyans):
         else:
             KeyResp, KeyPressTime = key, time
     # get what the key press means
-    if KeyResp:
-        Resp = keyans[respkeylist.index(KeyResp)]
+    Resp = keyans[respkeylist.index(KeyResp)] if KeyResp else None
     return KeyResp, Resp, KeyPressTime
 
 
@@ -431,9 +426,8 @@ def subject_info(experiment_info):
 
     if infoDlg.OK:
         return experiment_info
-    else:
-        core.quit()
-        print("User cancelled")
+    core.quit()
+    print("User cancelled")
 
 
 def event_logger(logging_level, LogFile):
