@@ -1,11 +1,11 @@
 import os
 import sys
 
-code_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.append(code_path)
-
 from psychopy import data
 from src.experiment import subject_info
+
+code_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(code_path)
 
 
 def test_subject_info():
@@ -31,6 +31,10 @@ def test_subject_info():
         + "_events.tsv"
     )
 
+
+"""
+The things below will not run in CI
+"""
 
 # def test_Paradigm():
 

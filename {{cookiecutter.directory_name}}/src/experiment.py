@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
-
 """experiment.py
 experiment stimulus here
 """
 import os
+
 import numpy as np
-
-from psychopy import core, data, gui, visual, event, logging
+from psychopy import core
+from psychopy import data
+from psychopy import event
+from psychopy import gui
+from psychopy import logging
+from psychopy import visual
 from pyglet.window import key
-
-from src.fileIO import create_dir, load_instruction, create_filename
+from src.fileIO import create_dir
+from src.fileIO import create_filename
+from src.fileIO import load_instruction
 
 # from random import uniform, shuffle
 

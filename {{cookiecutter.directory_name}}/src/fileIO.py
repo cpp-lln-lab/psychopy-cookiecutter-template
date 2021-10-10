@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 """fileIO.py
 file input/output functions
 """
@@ -8,8 +7,9 @@ import csv
 import os
 import re
 import stat
-import yaml
 from collections import OrderedDict
+
+import yaml
 from bids.layout.writing import build_path
 
 
@@ -44,13 +44,13 @@ def load_instruction(PATH):
     return parse_instructions(input_data)
 
 
-def load_conditions_dict(conditionfile):
+def load_conditions_dict(condition_file):
     """
     load each row as a dictionary with the headers as the keys
     save the headers in its original order for data saving
     """
 
-    with codecs.open(conditionfile, "r", encoding="utf8") as f:
+    with codecs.open(condition_file, "r", encoding="utf8") as f:
         reader = csv.DictReader(f)
         trials = [row for row in reader]
 

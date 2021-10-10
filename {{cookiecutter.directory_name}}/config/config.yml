@@ -10,7 +10,8 @@ settings:
   debug: false
   window_size: "full_screen" # [800, 600]
   mouse_visible: false
-  logging_level: ""
+  logging_level: "INFO"
+  font_size: 12
 
 keys: ["1", "2", "3", "4"]
 

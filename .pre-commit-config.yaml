@@ -16,9 +16,20 @@ repos:
     -   id: black
 
 -   repo: https://github.com/ikamensh/flynt/
-    rev: ''
+    rev: '0.69'
     hooks:
     -   id: flynt
+
+
+# -   repo: https://github.com/pre-commit/mirrors-autopep8
+#     rev: '7d14f78'  # Use the sha / tag you want to point at
+#     hooks:
+#     -   id: autopep8
+
+# -   repo: https://github.com/asottile/reorder_python_imports
+#     rev: v2.6.0
+#     hooks:
+#     -   id: reorder-python-imports
 
 # -   repo: https://gitlab.com/pycqa/flake8
 #     rev: 3.7.9

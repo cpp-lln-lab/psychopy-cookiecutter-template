@@ -4,4 +4,5 @@ pytest
 pytest-cov
 PsychoPy==2021.2.3
 pybids
-wxpython
+
+# wxpython # failing to pip install this
