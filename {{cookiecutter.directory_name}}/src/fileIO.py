@@ -8,8 +8,9 @@ import csv
 import os
 import re
 import stat
-from collections import OrderedDict
 import yaml
+from collections import OrderedDict
+from bids.layout.writing import build_path
 
 
 def create_dir(directory):
@@ -117,6 +118,20 @@ def load_config():
     config_file = os.path.join(root, "config", "config.yml")
 
     with open(config_file) as f:
-        dict = yaml.load(f, Loader=yaml.FullLoader)
-        print(dict)
-        return dict
+        config = yaml.load(f, Loader=yaml.FullLoader)
+        print(config)
+        return config
+
+
+def create_filename(entities):
+
+    patterns = [
+        "sub-{subject}[/ses-{session}][/{modality<func|beh|eeg|meg>}]/"
+        "sub-{subject}[_ses-{session}]"
+        "[_task-{task}][_run-{run}]"
+        "[_date-{date}]"
+        "_{suffix<events|beh>}"
+        "{extension<.json|.tsv>}"
+    ]
+
+    return build_path(entities, patterns)

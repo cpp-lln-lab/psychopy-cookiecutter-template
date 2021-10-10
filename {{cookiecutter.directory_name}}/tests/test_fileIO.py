@@ -61,3 +61,19 @@ def test_load_config():
         "exp_txt": "./instructions/instruction.txt",
     }
     assert config["trials_file"] == "./stimuli/trials.csv"
+
+
+def test_create_filename():
+
+    entities = {
+        "extension": ".tsv",
+        "modality": "beh",
+        "subject": "001",
+        "task": "test",
+        "suffix": "events",
+        "date": "20211011",
+    }
+
+    filename = create_filename(entities)
+
+    assert filename == "sub-001/beh/sub-001_task-test_date-20211011_events.tsv"
