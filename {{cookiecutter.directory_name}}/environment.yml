@@ -1,0 +1,17 @@
+name: cookiecutter_psychopy
+channels:
+  - default
+  - conda-forge
+dependencies:
+  - python=3.8.*
+  - sphinx=3.5.1
+  - pip
+  - git
+  - pre-commit
+  - black
+  - pytest
+  - pytest-cov
+  - PsychoPy=2021.2.3
+  - wxpython
+  - pip:
+      - pybids

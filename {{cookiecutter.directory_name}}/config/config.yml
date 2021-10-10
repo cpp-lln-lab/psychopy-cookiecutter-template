@@ -2,12 +2,15 @@ info:
   experiment: "{{cookiecutter.experiment_name}}" # compulsory
   subject: "" # compulsory
   session: "" # compulsory
+  run: "" # compulsory
+  task_name: "" # compulsory
+  modality: "beh" # beh | mri | eeg | meg
 
 settings:
+  debug: false
   window_size: "full_screen" # [800, 600]
   mouse_visible: false
   logging_level: ""
-  MRI: false # set to true to allow trigger wait and dummy volume time
 
 keys: ["1", "2", "3", "4"]
 

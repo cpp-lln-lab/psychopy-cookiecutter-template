@@ -15,12 +15,14 @@ from src.experiment import (
     event_logger,
     Paradigm,
     Text,
-    Text_trial,
-    Img_trial,
     instructions,
+    # Text_trial,
+    # Img_trial,
 )
-from src.fileIO import load_conditions_dict, write_csv
+from src.fileIO import load_conditions_dict, load_config
 
+config = load_config()
+config["setting"]["logging_level"] = logging.INFO
 
 # settings
 INFO = {
@@ -47,12 +49,14 @@ exp_txt = "./instructions/instruction.txt"
 end_txt = "./instructions/end_instr.txt"
 trials_file = "./stimuli/trials.csv"
 
+font_size = 12
 
-def run_experiment(experiment_info, trials):
+
+def run_experiment(config, trials):
 
     # create experiment
     Experiment = Paradigm(
-        escape_key="esc", color=0, window_size=settings["window_size"]
+        escape_key="esc", color=0, window_size=config["settings"]["window_size"]
     )
     fixation = Text(window=Experiment.window, text="+", color="white", height=font_size)
     trigger = visual.TextStim(
@@ -78,7 +82,7 @@ def run_experiment(experiment_info, trials):
     # task instruction
     startexp.show(duration=None)
 
-    if settings["MRI"] == True:
+    if config["modality"] == "mri":
 
         # wait trigger
         trigger.draw()
@@ -115,10 +119,10 @@ if __name__ == "__main__":
     shuffle(trials)
 
     # collect participant info
-    experiment_info = subject_info(INFO)
+    config = subject_info(config)
 
     # set log file
-    event_logger(settings["logging_level"], experiment_info["LogFile"])
+    event_logger(config["settings"]["logging_level"], config["info"]["log_file"])
 
     # run
-    run_experiment(experiment_info, trials)
+    run_experiment(config, trials)

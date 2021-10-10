@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 
 """experiment.py
-experiemnt stimulus here
+experiment stimulus here
 """
+import os
+import numpy as np
+
 from psychopy import core, data, gui, visual, event, logging
 from pyglet.window import key
 
-import os
-from src.fileIO import create_dir, load_instruction
-from random import uniform, shuffle
+from src.fileIO import create_dir, load_instruction, create_filename
 
-import numpy as np
+# from random import uniform, shuffle
 
 # use the first font found on this list
-
 sans = ["Arial", "Gill Sans MT", "Helvetica", "Verdana"]
 
 
@@ -23,9 +23,9 @@ class Paradigm(object):
     """
 
     def __init__(
-        self, escape_key="esc", window_size=(1280, 720), color=0, *args, **kwargs
+        self, esc_key="esc", window_size=(1280, 720), color=0, *args, **kwargs
     ):
-        self.escape_key = escape_key
+        self.esc_key = esc_key
         self.trials = []
         self.stims = {}
 
@@ -173,7 +173,7 @@ class Img_trial(object):
     def __init__(self, window, respkeylist, keyans=None):
         """Initialize a text stimulus.
         Args:
-        window - The window object        duration - the duration the text will appear
+        window - The window object duration - the duration the text will appear
         respkeylist - list of keys to press to continue to next stimulus.
                         If None, will automatically go to the next stimulus.
         keyans - what each key in respkeylist actually means.
@@ -399,43 +399,33 @@ def get_keyboard(timer, respkeylist, keyans):
     return KeyResp, Resp, KeyPressTime
 
 
-def subject_info(experiment_info):
+def subject_info(config):
     """
     get subject information
     return a dictionary
     """
-    dlg_title = f"{experiment_info['Experiment']} subject details:"
-    infoDlg = gui.DlgFromDict(experiment_info, title=dlg_title)
 
-    experiment_info["Date"] = data.getDateStr()
+    dlg_title = f"{config['info']['experiment']} subject details:"
 
-    file_root = ("_").join(
-        [
-            experiment_info["Subject"],
-            experiment_info["Experiment"],
-            experiment_info["Session"],
-        ]
-    )
+    if not config["settings"]["debug"]:
+        infoDlg = gui.DlgFromDict(dictionary=config["info"], title=dlg_title)
 
-    experiment_info["DataFile"] = (
-        "data" + os.path.sep + file_root + "_data_" + experiment_info["Date"] + ".csv"
-    )
-    experiment_info["LogFile"] = (
-        "data" + os.path.sep + file_root + "_logs_" + experiment_info["Date"] + ".log"
-    )
+    config["info"]["date"] = data.getDateStr(format="%Y%b%d%H%M")
+    config["info"]["data_file"] = create_filename(config)
+    config["info"]["log_file"] = create_filename(config, ".log")
 
-    if infoDlg.OK:
-        return experiment_info
-    core.quit()
+    if config["settings"]["debug"] or infoDlg.OK:
+        return config
     print("User cancelled")
+    core.quit()
 
 
-def event_logger(logging_level, LogFile):
+def event_logger(logging_level, log_file):
     """
     log events
     """
-    directory = os.path.dirname(LogFile)
+    directory = os.path.dirname(log_file)
     create_dir(directory)
 
     logging.console.setLevel(logging.WARNING)
-    logging.LogFile(LogFile, level=logging_level)
+    logging.LogFile(log_file, level=logging_level)

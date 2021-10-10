@@ -123,7 +123,21 @@ def load_config():
         return config
 
 
-def create_filename(entities):
+def create_filename(config, extension=".tsv"):
+
+    entities = {
+        "suffix": "events",
+        "extension": extension,
+        "modality": config["info"]["modality"],
+        "subject": config["info"]["subject"],
+        "session": config["info"]["session"],
+        "task": config["info"]["task_name"],
+        "run": config["info"]["run"],
+        "date": config["info"]["date"],
+    }
+
+    if entities["modality"] == "mri":
+        entities["modality"] = "func"
 
     patterns = [
         "sub-{subject}[/ses-{session}][/{modality<func|beh|eeg|meg>}]/"
