@@ -7,9 +7,7 @@ sys.path.append(code_path)
 
 from src.fileIO import *
 
-# @pytest.mark.parametrize(
-#     "this_schema, dir, basename", [("neurovault", "neurovault", "neurovault")]
-# )
+
 def test_write_csv():
 
     root = os.path.dirname(__file__)
@@ -40,3 +38,26 @@ def test_write_csv():
     ]
 
     os.remove(filename)
+
+
+def test_load_config():
+
+    config = load_config()
+
+    assert config["settings"] == {
+        "MRI": False,
+        "logging_level": "",
+        "mouse_visible": False,
+        "window_size": "full_screen",
+    }
+    assert config["fmri_setting"] == {
+        "dummy_vol": 3,
+        "slice_per_vol": 60,
+        "tr": 3,
+        "trigger": "t",
+    }
+    assert config["instructions"] == {
+        "end_txt": "./instructions/end_instr.txt",
+        "exp_txt": "./instructions/instruction.txt",
+    }
+    assert config["trials_file"] == "./stimuli/trials.csv"

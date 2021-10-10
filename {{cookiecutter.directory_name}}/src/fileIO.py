@@ -9,6 +9,7 @@ import os
 import re
 import stat
 from collections import OrderedDict
+import yaml
 
 
 def create_dir(directory):
@@ -108,3 +109,14 @@ def read_only(path):
     change the mode to read only
     """
     os.chmod(path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
+
+
+def load_config():
+
+    root = os.path.join(os.path.dirname(__file__), "..")
+    config_file = os.path.join(root, "config", "config.yml")
+
+    with open(config_file) as f:
+        dict = yaml.load(f, Loader=yaml.FullLoader)
+        print(dict)
+        return dict
