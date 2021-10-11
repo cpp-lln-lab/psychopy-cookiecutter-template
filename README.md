@@ -4,43 +4,44 @@
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/Remi-Gau/psychopy-cookiecutter-template/master.svg)](https://results.pre-commit.ci/latest/github/Remi-Gau/psychopy-cookiecutter-template/master)
 
+<!-- .. image:: https://codecov.io/gh/pytest-dev/pytest/branch/main/graph/badge.svg
+    :target: https://codecov.io/gh/pytest-dev/pytest
+    :alt: Code coverage Status
+-->
 
-<!--
-TODO
+A [Psychopy](https://www.psychopy.org) experiment template.
 
-- save output as BIDS tsv with data and time
-- save run parameters
-- add a debug mode
-- add tests
-- prompt to know subject ID, session and run number
-- get all parameters out of code and into a yml file
-- create documentation and read the docs files
+## How to use it.
 
- -->
+### Install cookiecutter
 
-My psychopy experiment template
-
-How to use it.
-
-## cookiecutter
-
-https://cookiecutter.readthedocs.io/en/1.7.2/
+#### pip
 
 ```
 pip install cookiecutter
 ```
 
-or via Anaconda:
+#### conda
 
 ```
 conda config --add channels conda-forge
 conda install cookiecutter
 ```
 
+### Use the template
+
 ```
-cookiecutter https://github.com/Remi-Gau/psychopy-cookiecutter-template
+cookiecutter https://github.com/cpp-lln-lab/psychopy-cookiecutter-template
 ```
 
+Check the [documentation](https://cookiecutter.readthedocs.io/en/1.7.2/) for
+more information on cookiecutter.
+
+## Contributing
+
+This is based on the
+[work](https://github.com/htwangtw/psychopy-cookiecutter-template) by the
+amazing Hao-Ting Wang.
 
 ---
 

@@ -1,6 +1,5 @@
 # {{cookiecutter.experiment_name}}
 
-[![Sourcery](https://img.shields.io/badge/Sourcery-enabled-brightgreen)](https://sourcery.ai)
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Author: {{cookiecutter.author}}
@@ -17,12 +16,31 @@ Author: {{cookiecutter.author}}
 │   ├── fileIO.py           <- File reading/writing related functions
 │   └── trial_generator.py  <- Experiment trial generation functions (optional).
 ├── stimuli                 <- Experiment stimuli
-│   └── trials.csv          <- Pregenerated trials (optional).
+│   ├── audio
+│   │   └── README.md
+│   ├── images
+│   │   └── README.md
+│   ├── trials.csv          <- Pre-generated trials (optional).
+│   └── video
+│       └── README.md
+├── tests
+│   ├── stimuli
+│   │   └── trials.csv
+│   ├── test_experiment.py
+│   └── test_fileIO.py
 ├── README.md               <- The README for people developing/using this experiment
 └── run.py                  <- The main experiment code. The task is constructed here.
 
 ```
 
+## Installing
+
+Install all the necessary packages in a conda environment.
+
+```
+conda env update -f ./environment.yml
+conda activate {{cookiecutter.experiment_name}}
+```
 
 ---
 
