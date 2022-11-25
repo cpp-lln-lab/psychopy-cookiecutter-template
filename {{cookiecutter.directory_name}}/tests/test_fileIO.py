@@ -38,7 +38,7 @@ def test_write_csv():
 
     with codecs.open(filename, "r", encoding="utf8") as f:
         reader = csv.DictReader(f)
-        trials = [row for row in reader]
+        trials = list(reader)
 
         # save field names as a list in order
         fieldnames = reader.fieldnames

@@ -352,7 +352,7 @@ class instructions(object):
 
     def show(self, duration=None):
         # get instruction
-        for i, cur in enumerate(self.instruction_txt):
+        for cur in self.instruction_txt:
             self.display.setText(cur)
             self.display.draw()
             self.window.flip()

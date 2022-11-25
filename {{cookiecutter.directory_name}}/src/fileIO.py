@@ -52,7 +52,7 @@ def load_conditions_dict(condition_file):
 
     with codecs.open(condition_file, "r", encoding="utf8") as f:
         reader = csv.DictReader(f)
-        trials = [row for row in reader]
+        trials = list(reader)
 
         # save field names as a list in order
         fieldnames = reader.fieldnames
